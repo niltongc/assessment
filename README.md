@@ -9,11 +9,11 @@ Desenvolver uma aplicação em python que sirva de socket UDP para recepção de
 
 O dados recebidos devem possuir o seguinte formato
 
->DATAtype,protocolo,yymmddhhmmss,status;ID=id<
+# >DATAtype,protocolo,yymmddhhmmss,status;ID=id<
 
 exemplos: 
->DATA1,66,220918235757,1;ID=123<
->DATA2,66,220921230008,0;ID=456<
+# >DATA1,66,220918235757,1;ID=123<
+# >DATA2,66,220921230008,0;ID=456<
 
 Desenvolver uma função que analise o comando de entrada e faça o parse dos dados salvando em um JSON com o seguinte formato:
 
@@ -35,7 +35,7 @@ SEGUNDA PARTE
 
 Desenvolver uma “simulador” de comandos. Ele deve gerar comandos de forma aleatória, mas dentro do padrão definido
 
->DATAtype,protocolo,yymmddhhmmss,status;ID=id<
+# >DATAtype,protocolo,yymmddhhmmss,status;ID=id<
 
 seguindo as regras de:
 
