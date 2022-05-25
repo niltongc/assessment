@@ -2,7 +2,9 @@
 O projeto deve ser dividido em duas partes.
 
 #########################################################################
+
 PRIMEIRA PARTE
+
 #########################################################################
 
 Desenvolver uma aplicação em python que sirva de socket UDP para recepção de dados
