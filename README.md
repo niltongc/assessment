@@ -1,34 +1,26 @@
 # assessment
-O projeto deve ser dividido em duas partes.
+O projeto deve ser segmentado em duas etapas
 
 #########################################################################
-
-PRIMEIRA PARTE
-
+PRIMEIRA ETAPA
 #########################################################################
 
-Desenvolver uma aplicação em python que sirva de socket UDP para recepção de dados
+Crie uma aplicação em Python, ou na linguagem de sua escolha, que funcione como um servidor de soquete UDP para receber pacotes no formato texto.
 
-
-O dados recebidos devem possuir o seguinte formato
-
+Certifique-se de que os pacotes recebidos sigam o formato especificado:
 
 # >DATAtype,protocolo,yymmddhhmmss,status;ID=id<
-
 
 exemplos: 
 
 # >DATA1,66,220918235757,1;ID=123<
 # >DATA2,66,220921230008,0;ID=456<
 
-Desenvolver uma função que analise o comando de entrada e faça o parse dos dados salvando em um JSON com o seguinte formato:
-
+Crie uma função que analise o comando de entrada e efetue o parsing dos dados, armazenando-os em um arquivo JSON no formato a seguir:
 
 {“type”: 1, “protocolo”: 66, “utc”: “2022-09-18 23:57:57”, “status”: 0, “id”: “123”}
 
-
-Criar uma base de dados local contendo uma única tabela para receber esses dados. A tabela deve se chamar dev_status e conter as seguintes colunas:
-
+Estabelecer uma base de dados local que inclua uma tabela única para acomodar esses dados. A tabela será denominada 'dev_status' e deverá compreender as seguintes colunas:
 
 # type int
 # protocolo int
@@ -36,42 +28,28 @@ Criar uma base de dados local contendo uma única tabela para receber esses dado
 # status int
 # id varchar
 
-Usar o bando de preferencia!
-
-
-#########################################################################
-
-SEGUNDA PARTE
+Utilize o banco de dados de preferência
 
 #########################################################################
+SEGUNDA ETAPA
+#########################################################################
 
-Desenvolver uma “simulador” de comandos. Ele deve gerar comandos de forma aleatória, mas dentro do padrão definido
-
+Crie um 'simulador' de comandos que gere pacotes de maneira aleatória, mantendo-se dentro do padrão estabelecido.
 
 # >DATAtype,protocolo,yymmddhhmmss,status;ID=id<
 
 seguindo as regras de:
 
+ - type - só pode ser 1 ou 2
+ - protocolo - só pode ser 66, 67 ou 68
+ - data - NOW()
+ - status - só pode ser 0 ou 1
+ - id - deve conter somente 3 caracteres aleatórios
 
-type só pode ser 1 ou 2
-
-protocolo só pode ser 66, 67 ou 68
-
-uma data válida
-
-status só pode ser 0 ou 1
-
-id deve conter somente 3 caracteres
-
-Quando executado o simulador deve ficar em execução até que seja interrompido 
-
-Ele deve se conectar ao processo do socket, e a cada 1 segunda enviar um dado 
-
+Quando o simulador é executado, ele deve permanecer em execução até ser interrompido. Deverá estabelecer uma conexão com o soquete e, a cada 5 segundos, enviar um conjunto de dados. 
 
 #########################################################################
 
-
-Descrever passo a passo como o processo deve ser iniciado e executado.
-
+Fornecer uma descrição detalhada dos passos necessários para iniciar e executar o processo
 
 BOA SORTE!
