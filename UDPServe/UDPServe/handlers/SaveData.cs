@@ -132,7 +132,7 @@ namespace UDPServe.Handlers
 
         // Saving Json
         public static void SaveJson(int dataNumber, string protocoloPart,
-        string utcPart, string statusPart, string idPart)
+     string utcPart, string statusPart, string idPart)
         {
             var Data = new
             {
@@ -145,7 +145,13 @@ namespace UDPServe.Handlers
 
             string json = JsonSerializer.Serialize(Data);
 
-            File.WriteAllText($"json/{idPart}.json", json);
+            string directoryPath = "json"; 
+            string filePath = Path.Combine(directoryPath, $"{idPart}.json"); // Caminho completo do arquivo
+
+            // Create Directory if not exists
+            Directory.CreateDirectory(directoryPath);
+
+            File.WriteAllText(filePath, json);
 
             System.Console.WriteLine("Json saved");
         }
