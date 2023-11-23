@@ -6,7 +6,7 @@ namespace UDPServe.Handlers
     public class ConvertDate
     {
 
-        public static string ConvertDateTime(string yymmddhhmmss)
+        public static DateTime ConvertDateTime(string yymmddhhmmss)
         {
             int year = 2000 + int.Parse(yymmddhhmmss.Substring(0, 2));
             int month = int.Parse(yymmddhhmmss.Substring(2, 2));
@@ -16,9 +16,8 @@ namespace UDPServe.Handlers
             int second = int.Parse(yymmddhhmmss.Substring(10, 2));
 
             DateTime dateTime = new DateTime(year, month, day, hour, minute, second);
-            string formattedDateTime = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            return formattedDateTime;
+            return dateTime;
         }
 
 

@@ -13,6 +13,7 @@ namespace UDPServe.Handlers
 
         public static void SaveInDatabase(string message)
         {
+            message = ConvertRemoveChar.RemoveChar(message);
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -55,8 +56,11 @@ namespace UDPServe.Handlers
 
                 connection.Close();
 
+                //Parsing DateTime to string formated
+                var utcFormated = utcPart.ToString("yyyy-MM-dd HH:mm:ss");
+
                 //Call function to save Json
-                SaveJson(dataNumber, protocoloPart, utcPart, statusPart, idPart);
+                SaveJson(dataNumber, protocoloPart, utcFormated, statusPart, idPart);
             }
 
         }
@@ -95,7 +99,7 @@ namespace UDPServe.Handlers
                     Id NVARCHAR(4) PRIMARY KEY,
                     Type INT NOT NULL,
                     Protocolo INT NOT NULL,
-                    UTC NVARCHAR(MAX) NOT NULL,
+                    UTC DATETIME NOT NULL,
                     Status INT NOT NULL
                 )", connection);
 
@@ -132,7 +136,7 @@ namespace UDPServe.Handlers
 
         // Saving Json
         public static void SaveJson(int dataNumber, string protocoloPart,
-     string utcPart, string statusPart, string idPart)
+        string utcPart, string statusPart, string idPart)
         {
             var Data = new
             {
@@ -145,7 +149,7 @@ namespace UDPServe.Handlers
 
             string json = JsonSerializer.Serialize(Data);
 
-            string directoryPath = "json"; 
+            string directoryPath = "json";
             string filePath = Path.Combine(directoryPath, $"{idPart}.json"); // Caminho completo do arquivo
 
             // Create Directory if not exists
