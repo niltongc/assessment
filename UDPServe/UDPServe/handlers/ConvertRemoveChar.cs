@@ -23,6 +23,8 @@ namespace UDPServe.Handlers
             string pattern = "[><]";
             string result = Regex.Replace(message2, pattern, "");
 
+            result = Regex.Replace(result, ";", ",");
+
             return result;
         }
 

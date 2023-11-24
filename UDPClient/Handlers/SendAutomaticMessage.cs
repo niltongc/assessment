@@ -52,7 +52,7 @@ namespace UDPClient.Handlers
             int RandomId = randomNumberGenerator.Next(100, 999);
             string IdData = $"ID={RandomId}";
 
-            string result = ">" + TypeData + "," + ProtocolData + "," + DateNow + "," + StatusData + "," + IdData + "<" ;
+            string result = ">" + TypeData + "," + ProtocolData + "," + DateNow + "," + StatusData + ";" + IdData + "<" ;
             return result;
         }
     }
