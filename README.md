@@ -8,3 +8,12 @@ A porta configurada tanto no UDPClient quanto no UDPServer é a 11000.<br>
 O banco de dados é criado ao iniciar o UDPServer caso ainda não exista (dotnet run).<br>
 Ao iniciar o UDPClient, dados serão enviados a cada 5 segundos. Para finalizar a aplicação, basta pressionar Enter no console.<br>
 Os arquivos em formato JSON serão salvos na pasta 'json' dentro da UDPServer. Eles são nomeados com o ID dos dados, por exemplo: 123.json.
+
+
+***************
+
+Versão do código executando na AWS utilizando o EC2 como UDP Server, salvando os arquivos json em uma bucket S3 e salvando os registros no RDS SQL Server.
+
+https://github.com/niltongc/dotnet-AWS-EC2-UDP-Server
+
+***************
