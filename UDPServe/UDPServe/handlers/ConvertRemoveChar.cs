@@ -11,7 +11,7 @@ namespace UDPServe.Handlers
 
         public static string RemoveChar(string message)
         {
-            //Convert to bytes
+            // Convert to bytes
             byte[] bytes = Encoding.UTF8.GetBytes(message);
 
             //Remove char

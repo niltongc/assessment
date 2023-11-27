@@ -1,6 +1,8 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text.Json;
+using UDPServe.Models;
+using UDPServe.Validation;
 
 
 namespace UDPServe.Handlers
@@ -13,61 +15,75 @@ namespace UDPServe.Handlers
 
         public static void SaveInDatabase(string message)
         {
-            message = ConvertRemoveChar.RemoveChar(message);
-
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
+                message = ConvertRemoveChar.RemoveChar(message);
 
-                connection.Open();
-
-                //Split Message
-                string[] parts = message.Split(",");
-                string data1 = parts[0];
-                int dataNumber = int.Parse(data1.Substring(data1.Length - 1));
-
-                var protocoloPart = parts[1];
-
-                var utcPart = ConvertDate.ConvertDateTime(parts[2]);
-
-                var statusPart = parts[3];
-
-                string idPart = parts[4].Substring(3);
-
-
-                //Verify if Primary key exists
-                bool existingRecord = IdVerify(idPart);
-
-                if (existingRecord)
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    System.Console.WriteLine("It's not possible to save:  PRIMARY KEY already exists");
-                    return;
+                    connection.Open();
+
+                    // Split Message
+                    string[] parts = message.Split(",");
+
+                    // Data type
+                    string data1 = DataTypeValidation.IsCorrectData(parts[0]);
+                    int dataNumber = int.Parse(data1.Substring(data1.Length - 1));
+
+                    // Protocol
+                    string protocoloPart = DataTypeValidation.IsCorrectProtocol(parts[1]);
+
+                    // DateTime
+                    string utcPart = DataTypeValidation.IsCorrectDate(parts[2]);
+                    var utcConverted = ConvertDate.ConvertDateTime(utcPart);
+
+                    // Status
+                    string statusPart = DataTypeValidation.IsCorrectStatus(parts[3]);
+
+                    // Id
+                    string idPart = DataTypeValidation.IsCorrectId(parts[4].Substring(3));
+
+                    // Verify if Primary key exists
+                    bool existingRecord = IdVerify(idPart);
+
+                    if (existingRecord)
+                    {
+                        System.Console.WriteLine("It's not possible to save: PRIMARY KEY already exists");
+                        return;
+                    }
+
+                    // Insert data in Database
+                    var command = new SqlCommand("INSERT INTO dev_status (type, protocolo, utc, status, id) VALUES (@type, @protocolo, @utc, @status, @id)", connection);
+                    command.Parameters.AddWithValue("@type", dataNumber);
+                    command.Parameters.AddWithValue("@protocolo", protocoloPart);
+                    command.Parameters.AddWithValue("@utc", utcConverted);
+                    command.Parameters.AddWithValue("@status", statusPart);
+                    command.Parameters.AddWithValue("@id", idPart);
+
+                    command.ExecuteNonQuery();
+
+                    connection.Close();
+
+                    // Parsing DateTime to string formatted
+                    var utcFormatted = utcConverted.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    // Call function to save Json
+                    SaveJson(dataNumber, protocoloPart, utcFormatted, statusPart, idPart);
                 }
-
-
-                //Insert data in Database
-                var command = new SqlCommand("INSERT INTO dev_status (type, protocolo, utc, status, id) VALUES (@type, @protocolo, @utc, @status, @id)", connection);
-                command.Parameters.AddWithValue("@type", dataNumber);
-                command.Parameters.AddWithValue("@protocolo", protocoloPart);
-                command.Parameters.AddWithValue("@utc", utcPart);
-                command.Parameters.AddWithValue("@status", statusPart);
-                command.Parameters.AddWithValue("@id", idPart);
-
-                command.ExecuteNonQuery();
-
-                connection.Close();
-
-                //Parsing DateTime to string formated
-                var utcFormated = utcPart.ToString("yyyy-MM-dd HH:mm:ss");
-
-                //Call function to save Json
-                SaveJson(dataNumber, protocoloPart, utcFormated, statusPart, idPart);
             }
-
+            catch (ArgumentException ex)
+            {
+                System.Console.WriteLine($"Validation error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions as needed
+                System.Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
 
         public static void CreateDatabaseAndTableIfNotExists()
         {
-
 
             using (var connection = new SqlConnection(masterConnectionString))
             {
@@ -110,10 +126,7 @@ namespace UDPServe.Handlers
             }
 
 
-
-
         }
-
 
         public static bool IdVerify(string id)
         {
@@ -138,13 +151,13 @@ namespace UDPServe.Handlers
         public static void SaveJson(int dataNumber, string protocoloPart,
         string utcPart, string statusPart, string idPart)
         {
-            var Data = new
+            var Data = new JsonModel()
             {
-                type = dataNumber,
-                protocolo = protocoloPart,
-                utc = utcPart,
-                status = statusPart,
-                id = idPart
+                Type = dataNumber,
+                Protocolo = int.Parse(protocoloPart),
+                Utc = utcPart,
+                Status = int.Parse(statusPart),
+                Id = idPart
             };
 
             string json = JsonSerializer.Serialize(Data);
