@@ -1,5 +1,4 @@
 
-Segue a correção do texto:
 
 Há dois códigos em duas pastas, um é o cliente UDP e o outro é o servidor UDP.
 
