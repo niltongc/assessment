@@ -6,7 +6,7 @@ A linguagem utilizada é .NET C# 7.
 
 O banco de dados utilizado é o SQL Server local.<br>
 Talvez seja necessário configurar a senha e o login da connection string no arquivo UDPServe/UDPServe/handlers/SaveData.cs. Usado: "Server=localhost\SQLEXPRESS01;DataBase=DevStatus;Integrated Security=True; TrustServerCertificate=True".<br>
-O banco de dados é criado ao iniciar o UDPServer (dotnet run) caso ainda não exista. Para executar esse comando, é necessário estar na pasta UDPServe/UDPServe<br>.
+O banco de dados é criado ao iniciar o UDPServer (dotnet run) caso ainda não exista. Para executar esse comando, é necessário estar na pasta UDPServe/UDPServe.<br>
 
 O UDPClient fornece dados aleatórios automaticamente para o UDPServer.<br>
 É necessário configurar o IP local no Program.cs do UDPClient/Program.cs.<br>
